@@ -11,20 +11,21 @@ namespace QuizConsole.Obiekty
         public int Id { get; set; }
         public string Tresc { get; set; }
         public int Kategoria { get; set; }
-        public string Odp_01 { get; set; }
-        public string Odp_02 { get; set; }
-        public string Odp_03 { get; set; }
-        public string Odp_04 { get; set; }
+        public List<Odpowiedz> Odpowiedzi { get; set; } = new List<Odpowiedz>();
 
-        public void WyswietlPytanie()
+        public void PokazPytanie()
         {
-            // kod który wuswietla pytanie graczowi
-        }
+            Console.WriteLine($"Pytanie za {Kategoria} pkt");
+            Console.WriteLine();
+            Console.WriteLine(Tresc);
+            Console.WriteLine();
+            foreach (var odp in Odpowiedzi)
+            {
+                Console.WriteLine($"{odp.Id}. {odp.Tresc}");
+            }
 
-        public int PodajKategoriePytania()
-        {
-            return Kategoria;
+            Console.WriteLine();
+            Console.Write("Naciśnij 1, 2, 3 lub 4 => ");
         }
-
     }
 }
