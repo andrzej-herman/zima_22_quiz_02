@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuizConsole.Obiekty
+namespace QuizConsole.Models
 {
-    public class Odpowiedz
+    public class Answer
     {
         public int Id { get; set; }
-        public string Tresc { get; set; }
-        public bool CzyPrawidlowa { get; set; }
+        public string Content { get; set; }
+        public bool IsCorrect { get; set; }
     }
 }
