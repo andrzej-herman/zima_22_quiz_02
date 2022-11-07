@@ -1,24 +1,14 @@
-﻿using QuizConsole;
-using QuizConsole.Models;
+﻿using QuizConsole.Models;
 
-var e = new Exercise();
-e.TestIfa();
+short index = 1;
+while (true)
+{
+    Console.WriteLine(index);
+    index++;
+}
 
 //var game = new Game();
+//var message = new Message();
+//message.DisplayWelcome();
 //game.DrawQuestion();
 //game.CurrentQuestion.Display();
-
-
-
-
-
-
-
-
-
-
-
-
-Console.WriteLine();
-
-

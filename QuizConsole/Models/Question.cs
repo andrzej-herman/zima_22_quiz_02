@@ -12,17 +12,18 @@ namespace QuizConsole.Models
         public string Content { get; set; }
         public int Category { get; set; }
         public List<Answer> Answers { get; set; } = new List<Answer>();
+        public string Author { get; set; }
 
         public void Display()
         {
-            //Console.WriteLine("Pytanie za " + Category + " pkt");
             Console.WriteLine($"Pytanie za {Category} pkt");
+            Console.WriteLine($"Autor: {Author}");
             Console.WriteLine();
             Console.WriteLine(Content);
             Console.WriteLine();
 
             foreach (var answer in Answers)
-                Console.WriteLine($"{answer.Id}. {answer.Content}");
+                Console.WriteLine($"{answer.DisplayOrder}. {answer.Content}");
 
             Console.WriteLine();
             Console.Write("Naciśnij 1, 2, 3 lub 4 => ");

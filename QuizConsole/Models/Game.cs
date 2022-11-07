@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,122 +12,43 @@ namespace QuizConsole.Models
         public Game()
         {
             CurrentCategory = 100;
-            DisplayWelcomeScreen();
             GetQuestions();
+            Random = new Random();
         }
 
 
         // właściwości
-        public List<Question> Questions { get; set; }
+        public List<Question> AllQuestions { get; set; }
         public int CurrentCategory { get; set; }
         public Question CurrentQuestion { get; set; }
+        public Random Random { get; set; }
 
-        // metoda wyświetlająca ekran powitalny
-        void DisplayWelcomeScreen()
-        {
-            Console.WriteLine();
-            Console.WriteLine("**************************");
-            Console.WriteLine("* WITAMY W NASZYM QUIZIE *");
-            Console.WriteLine("**************************");
-            Console.WriteLine("** Odpowiedz na 5 pytań **");
-            Console.WriteLine("**************************");
-            Console.WriteLine("***** POWODZENIA !!! *****");
-            Console.WriteLine();
-        }
 
         // metoda tworzaca bazę pytań
         void GetQuestions()
         {
-            Questions = new List<Question>();
-            Question p1 = new Question
-            {
-                Id = 1,
-                Category = 100,
-                Content = "Jak miał na imię Einstein?",
-            };
-
-            p1.Answers.Add(new Answer()
-            {
-                Id = 1,
-                Content = "Albert",
-                IsCorrect = true
-            });
-
-            p1.Answers.Add(new Answer()
-            {
-                Id = 2,
-                Content = "Aaron",
-                IsCorrect = false
-            });
-
-            p1.Answers.Add(new Answer()
-            {
-                Id = 3,
-                Content = "Andrew",
-                IsCorrect = false
-            });
-
-            p1.Answers.Add(new Answer()
-            {
-                Id = 4,
-                Content = "Anthony",
-                IsCorrect = false
-            });
-
-
-            Question p2 = new Question
-            {
-                Id = 2,
-                Category = 200,
-                Content = "W którym roku obalono komunizm w Polsce?",
-            };
-
-            p2.Answers.Add(new Answer()
-            {
-                Id = 1,
-                Content = "1989",
-                IsCorrect = true
-            });
-
-            p2.Answers.Add(new Answer()
-            {
-                Id = 2,
-                Content = "2000",
-                IsCorrect = false
-            });
-
-            p2.Answers.Add(new Answer()
-            {
-                Id = 3,
-                Content = "1960",
-                IsCorrect = false
-            });
-
-            p2.Answers.Add(new Answer()
-            {
-                Id = 4,
-                Content = "2012",
-                IsCorrect = false
-            });
-
-            Questions.Add(p1);  
-            Questions.Add(p2);
+            var path = $"{Directory.GetCurrentDirectory()}\\questions.json";
+            var json = File.ReadAllText(path);
+            AllQuestions = JsonConvert.DeserializeObject<List<Question>>(json);
         }
 
         // metoda losująca jedno pytanie z wszystkich pytan aktualnej kategorii
         public void DrawQuestion()
         {
-            foreach (var question in Questions)
+            var questionsCat = AllQuestions.Where(q => q.Category == CurrentCategory).ToList();
+            var number = Random.Next(0, questionsCat.Count);
+            var selectedQuestion = questionsCat[number];
+            selectedQuestion.Answers = selectedQuestion.Answers.OrderBy(a => Random.Next()).ToList();
+            int index = 1;
+            foreach (var a in selectedQuestion.Answers)
             {
-                if (question.Category == CurrentCategory)
-                {
-                    CurrentQuestion = question;
-                    break;
-                }
-                    
+                a.DisplayOrder = index;
+                index++;
             }
+            
+            CurrentQuestion = selectedQuestion;
         }
     }
 }
 
-// 100, 200, 500, 1000, 5000
+// 100, 200, 300, 400, 500, 750, 1000

@@ -10,6 +10,38 @@ namespace QuizConsole
 {
     public class Exercise
     {
+        void ExOne()
+        {
+            var numbers = new List<int>() { 56, 3, 167, 32, 67, 0, 14, 766, 1238, 321, 92, 18, 15, 432, 29 };
+            foreach (var n in numbers)
+            {
+                Console.Write($"{n}, ");
+            }
+            Console.WriteLine();
+
+            var selected = numbers.Where(n => n > 100);
+            foreach (var n in selected)
+            {
+                Console.Write($"{n}, ");
+            }
+
+            Console.WriteLine();
+            var oneElement = numbers.FirstOrDefault(n => n > 6000000);
+            Console.WriteLine(oneElement);
+
+            var ordered = numbers.OrderByDescending(n => n);
+            foreach (var n in ordered)
+            {
+                Console.Write($"{n}, ");
+            }
+
+
+            var sum = numbers.Sum();
+            Console.WriteLine(sum);
+        }
+
+
+
 
         //public int AddTwoDigits(int a, int b)
         //{
