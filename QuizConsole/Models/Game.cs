@@ -11,9 +11,16 @@ namespace QuizConsole.Models
     {
         public Game()
         {
-            CurrentCategory = 100;
+            
             GetQuestions();
             Random = new Random();
+            Categories = AllQuestions
+                .Select(x => x.Category)
+                .OrderBy(x => x)
+                .Distinct().ToList();
+
+            //Categories = new List<int> { 100, 200, 300, 400, 500, 750, 1000 };
+            CurrentCategory = Categories[CurrentCategoryIndex];
         }
 
 
@@ -22,6 +29,8 @@ namespace QuizConsole.Models
         public int CurrentCategory { get; set; }
         public Question CurrentQuestion { get; set; }
         public Random Random { get; set; }
+        public List<int> Categories { get; set; }
+        public int CurrentCategoryIndex { get; set; }
 
 
         // metoda tworzaca bazę pytań
@@ -48,6 +57,24 @@ namespace QuizConsole.Models
             
             CurrentQuestion = selectedQuestion;
         }
+
+        public bool CheckIfAnswerCorrect(int playerAnswer)
+        {
+            return CurrentQuestion.Answers.First(a => a.DisplayOrder == playerAnswer).IsCorrect;
+        }
+
+        public bool CheckIfLastQuestion()
+        {
+            if (CurrentCategoryIndex == 6) return true;
+            else
+            {
+                CurrentCategoryIndex++;
+                CurrentCategory = Categories[CurrentCategoryIndex];
+                return false;
+            }
+        }
+
+
     }
 }
 

@@ -14,7 +14,26 @@ namespace QuizConsole.Models
         public List<Answer> Answers { get; set; } = new List<Answer>();
         public string Author { get; set; }
 
-        public void Display()
+        public int Display()
+        {
+            while(true)
+            {
+                QuestionText();
+                if (int.TryParse(Console.ReadLine(), out int x) && x > 0 && x < 5)
+                {
+                    return x;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Wcisnałaś/eś nieprawidłowy klawisz ...");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+        }
+
+        private void QuestionText()
         {
             Console.WriteLine($"Pytanie za {Category} pkt");
             Console.WriteLine($"Autor: {Author}");
@@ -28,5 +47,7 @@ namespace QuizConsole.Models
             Console.WriteLine();
             Console.Write("Naciśnij 1, 2, 3 lub 4 => ");
         }
+
+
     }
 }
