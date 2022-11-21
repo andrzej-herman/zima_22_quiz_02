@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,26 @@ namespace QuizConsole.Models
             Console.WriteLine("Nacisnij ENTER aby rozpocząć grę ...");
             Console.ReadLine();
             Console.Clear();
+        }
+
+
+        public void GoodAnswerMessage()
+        {
+            Console.WriteLine();
+            Console.ForegroundColor= ConsoleColor.Green;
+            Console.WriteLine("Brawo to prawidłowa odpowiedź !!!");
+            Console.WriteLine();
+            Console.Write("Nacisnij ENTER aby zobaczyć następne pytanie ...");
+            Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public void FinalScreen()
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Brawo, udało CI się ukończyć quiz !!!!");
+            Console.WriteLine();
         }
     }
 }

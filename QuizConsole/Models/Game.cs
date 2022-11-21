@@ -21,6 +21,7 @@ namespace QuizConsole.Models
 
             //Categories = new List<int> { 100, 200, 300, 400, 500, 750, 1000 };
             CurrentCategory = Categories[CurrentCategoryIndex];
+            IsWheelAvailable= true;
         }
 
 
@@ -31,6 +32,7 @@ namespace QuizConsole.Models
         public Random Random { get; set; }
         public List<int> Categories { get; set; }
         public int CurrentCategoryIndex { get; set; }
+        public bool IsWheelAvailable { get; set; }
 
 
         // metoda tworzaca bazę pytań
@@ -74,7 +76,13 @@ namespace QuizConsole.Models
             }
         }
 
-
+        public void GetQuestionWithTwoAnswers()
+        {
+            var badAnswers = CurrentQuestion.Answers.Where(a => !a.IsCorrect);
+            var removed = badAnswers.OrderBy(a => Random.Next()).Take(2).ToList();
+            CurrentQuestion.Answers.Remove(removed[0]);
+            CurrentQuestion.Answers.Remove(removed[1]);
+        }
     }
 }
 

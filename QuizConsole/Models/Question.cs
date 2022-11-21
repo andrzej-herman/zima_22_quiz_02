@@ -14,14 +14,17 @@ namespace QuizConsole.Models
         public List<Answer> Answers { get; set; } = new List<Answer>();
         public string Author { get; set; }
 
-        public int Display()
+        public int Display(bool isWheelAvailable)
         {
+            Console.Clear();
             while(true)
             {
-                QuestionText();
-                if (int.TryParse(Console.ReadLine(), out int x) && x > 0 && x < 5)
+                QuestionText(isWheelAvailable);
+                var answer = Console.ReadLine();
+                if (IsCorrectKey(answer))
                 {
-                    return x;
+                    if (answer.ToLower() == "k") return 5;
+                    return int.Parse(answer);
                 }
                 else
                 {
@@ -33,7 +36,7 @@ namespace QuizConsole.Models
             }
         }
 
-        private void QuestionText()
+        private void QuestionText(bool isWheelAvailable)
         {
             Console.WriteLine($"Pytanie za {Category} pkt");
             Console.WriteLine($"Autor: {Author}");
@@ -45,9 +48,23 @@ namespace QuizConsole.Models
                 Console.WriteLine($"{answer.DisplayOrder}. {answer.Content}");
 
             Console.WriteLine();
-            Console.Write("Naciśnij 1, 2, 3 lub 4 => ");
+            var message = isWheelAvailable
+                ? "Naciśnij 1, 2, 3, 4 lub K aby użyć koła  => "
+                : "Naciśnij 1, 2, 3 lub 4 => ";
+
+            Console.Write(message);
+
         }
 
+
+        private bool IsCorrectKey(string key)
+        {
+            if (key.ToLower() == "k") return true;
+            if (int.TryParse(Console.ReadLine(), out int x) && x > 0 && x < 5)
+                return true;
+
+            return false;   
+        }
 
     }
 }
